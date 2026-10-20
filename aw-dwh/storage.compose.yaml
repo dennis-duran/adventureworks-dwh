@@ -15,7 +15,7 @@ services:
   
 
   minio:
-    image: minio/minio
+    image: pgsty/silo:RELEASE.2026-10-18T00-00-00Z
     ports:
       - "${MINIO_ADMIN_PORT}:9001"
     environment:
@@ -61,7 +61,7 @@ services:
   mc:
     depends_on:
       - minio
-    image: minio/mc
+    image: pgsty/mc:RELEASE.2026-10-18T00-00-00Z
     container_name: mc
     environment:
       - AWS_ACCESS_KEY_ID=${MINIO_ROOT_USER}
