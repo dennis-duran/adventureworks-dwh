@@ -12,7 +12,12 @@ ARG TRINO_VERSION=476
 
 # Install basic tools for debugging and management
 
-RUN apt-get update && \
+# Debian 11 (bullseye) repos moved to archive.debian.org after EOL
+RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list && \
+    sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list && \
+    echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
+
+RUN apt-get -o Acquire::Check-Valid-Until=false update && \
     apt-get install -y --no-install-recommends \
     python3-dev default-libmysqlclient-dev build-essential pkg-config gcc\
     curl \
